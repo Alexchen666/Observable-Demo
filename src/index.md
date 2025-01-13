@@ -9,13 +9,32 @@ sql:
 </div>
 
 ```js
+import {sql} from "npm:@observablehq/duckdb";
 const df = FileAttachment("data/penguins.csv").csv({typed: true});
 ```
 
 First, let's look at the first ten rows in our penguins dataset.
 
-```sql id=first10
-SELECT * FROM penguins LIMIT 10
+```js
+const cols = Object.keys(df[0]);
+const usedCols = cols.slice(1-cols.length); // remove the first column "ID"
+```
+
+
+```js
+const colsSelected = view(Inputs.checkbox(usedCols, 
+                                          {label: "Select the column(s) to show:",
+                                            value: usedCols
+                                          }
+                                          ));
+```
+
+```js
+const completeCols = ["ID", ...colsSelected]; // make sure "ID" is always selected
+const quotedColumns = completeCols.map(col => `"${col}"`).join(', ');
+const query = `SELECT ${quotedColumns} FROM penguins LIMIT 10;`;
+const queryTable = Inputs.table(await sql([query]));
+display(queryTable)
 ```
 
 ```js
@@ -25,8 +44,8 @@ function penguinChart(data, {width}) {
     subtitle: "Are they really big?",
     width,
     grid: true,
-    x: {label: "Body mass (g)"},
-    y: {label: "Flipper length (mm)"},
+    x: {label: "Body Mass (g)"},
+    y: {label: "Flipper Length (mm)"},
     color: {legend: true},
     marks: [
       Plot.linearRegressionY(data, {x: "Body Mass (g)", y: "Flipper Length (mm)", stroke: "Species"}),
@@ -34,11 +53,51 @@ function penguinChart(data, {width}) {
     ]
   });
 }
+
+function penguinHist(data, {width}){
+  return Plot.plot({
+    title: "Distribution of Penguin Body Mass",
+    subtitle: "Showing both histogram and density curve",
+    width,
+    grid: true,
+    x: {
+      label: "Body Mass (g)",
+      nice: true
+    },
+    y: {
+      label: "Count"
+    },
+    marks: [
+      Plot.rectY(data, 
+        Plot.binX(
+          {y: "count"}, 
+          {x: "Body Mass (g)", 
+          fill: "steelblue",
+          fillOpacity: 0.5,
+          tip: true}
+        )
+      ),
+      Plot.lineY(data,
+        Plot.binX(
+          { y: "count" },
+          {
+            x: "Body Mass (g)",
+            thresholds: 10,
+            curve: "natural"
+          }
+        )
+    )
+    ]
+  });
+}
 ```
 
-<div class="grid grid-cols-1" style="grid-auto-rows: auto;">
+<div class="grid grid-cols-2" style="grid-auto-rows: auto;">
   <div class="card">${
     resize((width) => penguinChart(df, {width}))
+  }</div>
+  <div class="card">${
+    resize((width) => penguinHist(df, {width}))
   }</div>
 </div>
 
