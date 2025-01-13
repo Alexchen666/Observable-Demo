@@ -96,9 +96,32 @@ function penguinHist(data, {width}){
   <div class="card">${
     resize((width) => penguinChart(df, {width}))
   }</div>
-  <div class="card">${
-    resize((width) => penguinHist(df, {width}))
-  }</div>
+  <div class="card">
+
+  ```js
+  const species = [
+    {name: "Adelie Penguin", select: "Adelie Penguin"},
+    {name: "Chinstrap Penguin", select: "Chinstrap Penguin"},
+    {name: "Gentoo Penguin", select: "Gentoo Penguin"},
+    {name: "All", select: ["Adelie Penguin", "Chinstrap Penguin", "Gentoo Penguin"]}
+  ]
+  const speciesSelected = view(Inputs.select(species, 
+                                          {label: "Select the species(s) to show:",
+                                            format: (t) => t.name,
+                                            value: species.find((t) => t.name === "All")
+                                          }
+                                          ));
+  ```
+
+  ```js
+  const usedData = speciesSelected["name"] != "All" ? df.filter(d => d.Species === speciesSelected["select"]) : df;
+  ```
+  
+  ${
+    resize((width) => penguinHist(usedData, {width}))
+  }
+  
+  </div>
 </div>
 
 
