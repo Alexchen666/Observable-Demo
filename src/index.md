@@ -6,7 +6,7 @@ sql:
 
 <div class="hero">
   <h1>Penguins!!!</h1>
-  <h2>Making a dashboard with lovely penguin data.</h2>
+  <h2>Making a dashboard with lovely penguins data.</h2>
 </div>
 
 ```js
@@ -82,10 +82,11 @@ function penguinMap({width}){
   })
 }
 ```
-
-${
-  resize((width) => penguinMap({width}))
-}
+<div style="margin: auto;">
+  ${
+    resize((width) => penguinMap({width}))
+  }
+</div>
 
 And where are the penguins from?
 
@@ -147,10 +148,11 @@ function penguinMekko({width}) {
 }
 ```
 
+<div>
 ${
   resize((width) => penguinMekko({width}))
 }
-
+</div>
 ---
 
 ## Exploratory Data Analysis
@@ -329,7 +331,7 @@ https://observablehq.com/@observablehq/plot-gallery
   font-size: 14vw;
   font-weight: 900;
   line-height: 1;
-  background: linear-gradient(30deg, var(--theme-foreground-focus), currentColor);
+  background: linear-gradient(90deg, var(--theme-foreground-focus), currentColor);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
