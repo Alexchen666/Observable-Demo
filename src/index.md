@@ -92,6 +92,23 @@ function penguinHist(data, {width}){
 }
 ```
 
+Now, let's look at some key numbers.
+
+<div class="grid grid-cols-3" style="grid-auto-rows: auto;">
+  <div class="card">
+    <h2>Adelie Penguin</h2>
+      <span class="big">${df.filter((d) => d.Species === "Adelie Penguin").length.toLocaleString("en-US")} </span>
+  </div>
+  <div class="card">
+    <h2>Chinstrap Penguin</h2>
+      <span class="big">${df.filter((d) => d.Species === "Chinstrap Penguin").length.toLocaleString("en-US")} </span>
+  </div>
+  <div class="card">
+    <h2>Gentoo Penguin</h2>
+      <span class="big">${df.filter((d) => d.Species === "Gentoo Penguin").length.toLocaleString("en-US")} </span>
+  </div>
+</div>
+
 <div class="grid grid-cols-2" style="grid-auto-rows: auto;">
   <div class="card">${
     resize((width) => penguinChart(df, {width}))
@@ -123,6 +140,14 @@ function penguinHist(data, {width}){
   
   </div>
 </div>
+
+Source:
+
+https://github.com/allisonhorst/palmerpenguins/tree/main
+
+https://www.kaggle.com/datasets/parulpandey/palmer-archipelago-antarctica-penguin-data
+
+Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081. https://doi.org/10.1371/journal.pone.0090081
 
 
 
