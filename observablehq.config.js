@@ -8,7 +8,7 @@ export default {
   // lets you organize them into sections and have unlisted pages.
   pages: [
     {
-      name: "Penguin Dashboard",
+      name: "Penguin",
       pages: [
         // {name: "Dashboard", path: "/example-dashboard"},
         // {name: "Report", path: "/example-report"}
