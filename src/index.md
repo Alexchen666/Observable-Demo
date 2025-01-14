@@ -118,7 +118,7 @@ const neighbours = [
 ```js
 function penguinMap({width}){
   return Plot.plot({
-    width,
+    width: 600,
     height: 500,
     projection: ({width, height}) => d3.geoAzimuthalEquidistant()
       .rotate([70, 60])
@@ -137,9 +137,76 @@ function penguinMap({width}){
 }
 ```
 
+<div style="display: flex; justify-content: center;">
 ${
   resize((width) => penguinMap({width}))
 }
+</div>
+
+And where are the penguins from?
+
+```js
+const breakdown = [
+  {species: "Adelie Penguin", island: "Torgersen Island", value: df.filter(d => d.Island === "Torgersen" && d.Species === "Adelie Penguin").length},
+  {species: "Adelie Penguin", island: "Dream Island", value: df.filter(d => d.Island === "Dream" && d.Species === "Adelie Penguin").length},
+  {species: "Adelie Penguin", island: "Biscoe Island", value: df.filter(d => d.Island === "Biscoe" && d.Species === "Adelie Penguin").length},
+  {species: "Chinstrap Penguin", island: "Torgersen Island", value: df.filter(d => d.Island === "Torgersen" && d.Species === "Chinstrap Penguin").length},
+  {species: "Chinstrap Penguin", island: "Dream Island", value: df.filter(d => d.Island === "Dream" && d.Species === "Chinstrap Penguin").length},
+  {species: "Chinstrap Penguin", island: "Biscoe Island", value: df.filter(d => d.Island === "Biscoe" && d.Species === "Chinstrap Penguin").length},
+  {species: "Gentoo Penguin", island: "Torgersen Island", value: df.filter(d => d.Island === "Torgersen" && d.Species === "Gentoo Penguin").length},
+  {species: "Gentoo Penguin", island: "Dream Island", value: df.filter(d => d.Island === "Dream" && d.Species === "Gentoo Penguin").length},
+  {species: "Gentoo Penguin", island: "Biscoe Island", value: df.filter(d => d.Island === "Biscoe" && d.Species === "Gentoo Penguin").length}
+]
+
+function marimekko({
+  x,
+  y,
+  z,
+  value = z,
+  anchor = "middle",
+  inset = 0.5,
+  ...options
+} = {}) {
+  const stackX = /\bleft$/i.test(anchor) ? Plot.stackX1 : /\bright$/i.test(anchor) ? Plot.stackX2 : Plot.stackX;
+  const stackY = /^top\b/i.test(anchor) ? Plot.stackY2 : /^bottom\b/i.test(anchor) ? Plot.stackY1 : Plot.stackY;
+  const [Xv, setXv] = Plot.column(value);
+  const {x: X, x1, x2, transform: tx} = stackX({offset: "expand", y, x: Xv});
+  const {y: Y, y1, y2, transform: ty} = stackY({offset: "expand", x, y: value});
+  return Plot.transform({x: X, x1, x2, y: Y, y1, y2, z, inset, frameAnchor: anchor, ...options}, (data, facets) => {
+    const I = d3.range(data.length);
+    const X = Plot.valueof(data, x);
+    const Z = Plot.valueof(data, value);
+    const sum = d3.rollup(I, I => d3.sum(I, i => Z[i]), i => X[i]);
+    setXv(I.map(i => sum.get(X[i])));
+    tx(data, facets);
+    ty(data, facets);
+    return {data, facets};
+  });
+}
+
+function penguinMekko({width}) {
+  const xy = (options) => marimekko({...options, x: "species", y: "island", value: "value"});
+  return Plot.plot({
+    width,
+    height: 640,
+    label: null,
+    x: {percent: true, ticks: 10, tickFormat: (d) => d === 100 ? `100%` : d},
+    y: {percent: true, ticks: 10, tickFormat: (d) => d === 100 ? `100%` : d},
+    marks: [
+      Plot.frame(),
+      Plot.rect(breakdown, xy({fill: "island", fillOpacity: 0.5})),
+      Plot.text(breakdown, xy({text: d => [d.value.toLocaleString("en"), d.island, d.species].join("\n"), fontSize: d => d.value === 0? 0 : 12})),
+      // Plot.text(breakdown, Plot.selectMinX(xy({z: "island", text: "island", anchor: "right", textAnchor: "middle", lineAnchor: "bottom", rotate: 90, dx: 516}))),
+      Plot.text(breakdown, Plot.selectMaxY(xy({z: "species", text: "species", anchor: "top", lineAnchor: "bottom", dy: -6})))
+    ]
+  });
+}
+```
+<div style="display: flex; justify-content: center;">
+${
+  resize((width) => penguinMekko({width}))
+}
+</div>
 
 ---
 
@@ -226,8 +293,6 @@ function penguinRatio({width}){
     resize((width) => penguinRatio({width}))
   }
 </div>
-
-
 
 ---
 
