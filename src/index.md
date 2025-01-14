@@ -6,12 +6,15 @@ sql:
 
 <div class="hero">
   <h1>Penguins!!!</h1>
+  <h2>Making a dashboard with lovely penguin data.</h2>
 </div>
 
 ```js
 import {sql} from "npm:@observablehq/duckdb";
 const df = FileAttachment("data/penguins.csv").csv({typed: true});
 ```
+
+# Table View
 
 First, let's look at the first ten rows in our penguins dataset.
 
@@ -92,6 +95,10 @@ function penguinHist(data, {width}){
 }
 ```
 
+---
+
+# Exploratory Data Analysis
+
 Now, let's look at some key numbers.
 
 <div class="grid grid-cols-3" style="grid-auto-rows: auto;">
@@ -140,6 +147,41 @@ Now, let's look at some key numbers.
   
   </div>
 </div>
+
+```js
+const over4500 = [
+  {species: "Adelie Penguin", total: 146, yes: df.filter(d => d['Body Mass (g)'] >= 4500 && d.Species === "Adelie Penguin").length},
+  {species: "Chinstrap Penguin", total: 68, yes: df.filter(d => d['Body Mass (g)'] >= 4500 && d.Species === "Chinstrap Penguin").length},
+  {species: "Gentoo Penguin", total: 119, yes: df.filter(d => d['Body Mass (g)'] >= 4500 && d.Species === "Gentoo Penguin").length}
+]
+
+function penguinRatio({width}){
+  return Plot.plot({
+    axis: null,
+    label: null,
+    height: 260,
+    width,
+    marginTop: 20,
+    marginBottom: 70,
+    title: "Mass over 4500 kg",
+    subtitle: "Of 3 species of penguins",
+    marks: [
+      Plot.axisFx({lineWidth: 10, anchor: "bottom", dy: 20}),
+      Plot.waffleY(over4500, {fx: "species", y: "total", fillOpacity: 0.4, rx: "100%"}),
+      Plot.waffleY(over4500, {fx: "species", y: "yes", rx: "100%", fill: "#99ffff"}),
+      Plot.text(over4500, {fx: "species", text: (d) => (d.yes / d.total).toLocaleString("en-US", {style: "percent"}), frameAnchor: "bottom", lineAnchor: "top", dy: 6, fill: "#99ffff", fontSize: 24, fontWeight: "bold"})
+    ]
+  })
+}
+
+```
+<div class="card">
+  ${
+    resize((width) => penguinRatio({width}))
+  }
+</div>
+
+---
 
 Source:
 
