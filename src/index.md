@@ -17,7 +17,7 @@ const land = topojson.feature(world, world.objects.land);
 
 ```js
 import {DuckDBClient} from "npm:@observablehq/duckdb";
-const db = DuckDBClient.of({p: df});
+const db = DuckDBClient.of({penguins: df});
 ```
 
 ## Table View
@@ -86,17 +86,9 @@ We should check the descriptive analysis for the categorical variables as well.
 
 ```js
 const cat = db.query(`SELECT Species, Island, Sex, COUNT(*) AS count
-FROM p
+FROM penguins
 GROUP BY Species, Island, Sex;`)
 display(Inputs.table(cat))
-```
-
-```js
-const test = db.query(`SELECT * FROM p`)
-```
-
-```js
-display(Inputs.table(test))
 ```
 
 ---
