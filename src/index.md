@@ -42,60 +42,6 @@ const queryTable = Inputs.table(await sql([query]));
 display(queryTable)
 ```
 
-```js
-function penguinChart(data, {width}) {
-  return Plot.plot({
-    title: "Big Penguins!",
-    subtitle: "Are they really big?",
-    width,
-    grid: true,
-    x: {label: "Body Mass (g)"},
-    y: {label: "Flipper Length (mm)"},
-    color: {legend: true},
-    marks: [
-      Plot.linearRegressionY(data, {x: "Body Mass (g)", y: "Flipper Length (mm)", stroke: "Species"}),
-      Plot.dot(data, {x: "Body Mass (g)", y: "Flipper Length (mm)", stroke: "Species", tip: true})
-    ]
-  });
-}
-
-function penguinHist(data, {width}){
-  return Plot.plot({
-    title: "Distribution of Penguin Body Mass",
-    subtitle: "Showing both histogram and density curve",
-    width,
-    grid: true,
-    x: {
-      label: "Body Mass (g)",
-      nice: true
-    },
-    y: {
-      label: "Count"
-    },
-    marks: [
-      Plot.rectY(data, 
-        Plot.binX(
-          {y: "count"}, 
-          {x: "Body Mass (g)", 
-          fill: "steelblue",
-          fillOpacity: 0.5,
-          tip: true}
-        )
-      ),
-      Plot.lineY(data,
-        Plot.binX(
-          { y: "count" },
-          {
-            x: "Body Mass (g)",
-            thresholds: 10,
-            curve: "natural"
-          }
-        )
-    )
-    ]
-  });
-}
-```
 ---
 
 ## Map View
@@ -137,11 +83,9 @@ function penguinMap({width}){
 }
 ```
 
-<div style="display: flex; justify-content: center;">
 ${
   resize((width) => penguinMap({width}))
 }
-</div>
 
 And where are the penguins from?
 
@@ -202,15 +146,69 @@ function penguinMekko({width}) {
   });
 }
 ```
-<div style="display: flex; justify-content: center;">
+
 ${
   resize((width) => penguinMekko({width}))
 }
-</div>
 
 ---
 
 ## Exploratory Data Analysis
+
+```js
+function penguinChart(data, {width}) {
+  return Plot.plot({
+    title: "Big Penguins!",
+    subtitle: "Are they really big?",
+    width,
+    grid: true,
+    x: {label: "Body Mass (g)"},
+    y: {label: "Flipper Length (mm)"},
+    color: {legend: true},
+    marks: [
+      Plot.linearRegressionY(data, {x: "Body Mass (g)", y: "Flipper Length (mm)", stroke: "Species"}),
+      Plot.dot(data, {x: "Body Mass (g)", y: "Flipper Length (mm)", stroke: "Species", tip: true})
+    ]
+  });
+}
+
+function penguinHist(data, {width}){
+  return Plot.plot({
+    title: "Distribution of Penguin Body Mass",
+    subtitle: "Showing both histogram and density curve",
+    width,
+    grid: true,
+    x: {
+      label: "Body Mass (g)",
+      nice: true
+    },
+    y: {
+      label: "Count"
+    },
+    marks: [
+      Plot.rectY(data, 
+        Plot.binX(
+          {y: "count"}, 
+          {x: "Body Mass (g)", 
+          fill: "steelblue",
+          fillOpacity: 0.5,
+          tip: true}
+        )
+      ),
+      Plot.lineY(data,
+        Plot.binX(
+          { y: "count" },
+          {
+            x: "Body Mass (g)",
+            thresholds: 10,
+            curve: "natural"
+          }
+        )
+    )
+    ]
+  });
+}
+```
 
 Now, let's look at some key numbers.
 
