@@ -17,7 +17,7 @@ const land = topojson.feature(world, world.objects.land);
 
 ```js
 import {DuckDBClient} from "npm:@observablehq/duckdb";
-const db = DuckDBClient.of({p: FileAttachment("data/penguins.csv")});
+const db = DuckDBClient.of({p: df});
 ```
 
 ## Table View
