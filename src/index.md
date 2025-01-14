@@ -1,7 +1,5 @@
 ---
 toc: false
-sql: 
-  penguins: data/penguins.csv
 ---
 
 <div class="hero">
