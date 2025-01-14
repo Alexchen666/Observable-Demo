@@ -12,6 +12,8 @@ sql:
 ```js
 import {sql} from "npm:@observablehq/duckdb";
 const df = FileAttachment("data/penguins.csv").csv({typed: true});
+const world = await FileAttachment("data/countries-110m.json").json();
+const land = topojson.feature(world, world.objects.land);
 ```
 
 ## Table View
@@ -94,6 +96,50 @@ function penguinHist(data, {width}){
   });
 }
 ```
+---
+
+## Map View
+
+Wait! Where are these islands?
+
+```js
+const islands = [
+  {name: "Torgersen Island", latitude: -64.77274, longitude: -64.0745},
+  {name: "Dream Island", latitude: -64.72678, longitude: -64.22484},
+  {name: "Biscoe Island", latitude: -65.26, longitude: -65.30}
+]
+
+const neighbours = [
+  {name: "Antartica", latitude: -68, longitude: -67},
+  {name: "Chile", latitude: -55, longitude: -69}
+]
+```
+
+```js
+function penguinMap({width}){
+  return Plot.plot({
+    width,
+    height: 500,
+    projection: ({width, height}) => d3.geoAzimuthalEquidistant()
+      .rotate([70, 60])
+      .translate([width / 2, height / 2])
+      .scale(width*2.5)
+      .clipAngle(40),
+    color: {legend: true},
+    marks: [
+      Plot.graticule(),
+      Plot.geo(land, {fill: "currentColor"}),
+      Plot.frame(),
+      Plot.dot(islands, {x: "longitude", y: "latitude", fill: "name", r: 3}),
+      Plot.text(neighbours, {x: "longitude", y: "latitude", text: (d) => d.name, fontSize: 30, fill: "black", stroke: "white"})
+    ]
+  })
+}
+```
+
+${
+  resize((width) => penguinMap({width}))
+}
 
 ---
 
@@ -181,9 +227,7 @@ function penguinRatio({width}){
   }
 </div>
 
-```js
 
-```
 
 ---
 
