@@ -35,7 +35,7 @@ const colsSelected = view(Inputs.checkbox(usedCols,
 ```
 
 ```js
-const completeCols = ["ID", ...colsSelected]; // make sure "ID" is always selected
+const completeCols = ["penguins.ID", ...colsSelected]; // make sure "ID" is always selected
 const quotedColumns = completeCols.map(col => `"${col}"`).join(', ');
 const query = `SELECT ${quotedColumns} FROM penguins LIMIT 10;`;
 const queryTable = Inputs.table(await sql([query]));
