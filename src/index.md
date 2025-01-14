@@ -14,7 +14,9 @@ import {sql} from "npm:@observablehq/duckdb";
 const df = FileAttachment("data/penguins.csv").csv({typed: true});
 ```
 
-# Table View
+# All about Penguins
+
+## Table View
 
 First, let's look at the first ten rows in our penguins dataset.
 
@@ -97,7 +99,7 @@ function penguinHist(data, {width}){
 
 ---
 
-# Exploratory Data Analysis
+## Exploratory Data Analysis
 
 Now, let's look at some key numbers.
 
