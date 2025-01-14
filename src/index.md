@@ -1,5 +1,7 @@
 ---
 toc: false
+sql:
+  penguins: data/penguins.csv
 ---
 
 <div class="hero">
@@ -8,11 +10,9 @@ toc: false
 </div>
 
 ```js
-import {DuckDBClient} from "npm:@observablehq/duckdb";
 const df = FileAttachment("data/penguins.csv").csv({typed: true});
 const world = await FileAttachment("data/countries-110m.json").json();
 const land = topojson.feature(world, world.objects.land);
-const db = DuckDBClient.of({penguins: FileAttachment("data/penguins.csv")});
 ```
 
 ## Table View
@@ -35,9 +35,7 @@ const colsSelected = view(Inputs.checkbox(usedCols,
 
 ```js
 const completeCols = ["ID", ...colsSelected]; // make sure "ID" is always selected
-const quotedColumns = completeCols.map(col => `"${col}"`).join(', ');
-const query = `SELECT * FROM "penguins" LIMIT 10;`;
-display(Inputs.table(await db.query(query)))
+display(Inputs.table(df, {columns: completeCols}))
 ```
 
 ---
