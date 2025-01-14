@@ -38,7 +38,7 @@ const completeCols = ["ID", ...colsSelected]; // make sure "ID" is always select
 display(Inputs.table(df, {columns: completeCols}))
 ```
 
-Also we can check the descriptive analysis.
+And we can check the descriptive analysis.
 
 ```sql
 SELECT 'Mean' AS 'Statistics',
@@ -75,6 +75,14 @@ SELECT 'Max' AS 'Statistics',
       MIN("Flipper Length (mm)") AS "Flipper Length (mm)", 
       MIN("Body Mass (g)") AS "Body Mass (g)"
 FROM penguins
+```
+
+We should check the descriptive analysis for the categorical variables as well.
+
+```sql
+SELECT Species, Island, Sex, COUNT(*) AS count
+FROM penguins
+GROUP BY Species, Island, Sex;
 ```
 
 ---
