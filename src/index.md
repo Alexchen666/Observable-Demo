@@ -163,7 +163,7 @@ function penguinRatio({width}){
     width,
     marginTop: 20,
     marginBottom: 70,
-    title: "Mass over 4500 kg",
+    title: "Mass over 4500 g",
     subtitle: "Of 3 species of penguins",
     marks: [
       Plot.axisFx({lineWidth: 10, anchor: "bottom", dy: 20}),
@@ -181,15 +181,25 @@ function penguinRatio({width}){
   }
 </div>
 
+```js
+
+```
+
 ---
 
-Source:
+Data:
 
 https://github.com/allisonhorst/palmerpenguins/tree/main
 
 https://www.kaggle.com/datasets/parulpandey/palmer-archipelago-antarctica-penguin-data
 
 Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081. https://doi.org/10.1371/journal.pone.0090081
+
+---
+
+Plot Reference:
+
+https://observablehq.com/@observablehq/plot-gallery
 
 
 
