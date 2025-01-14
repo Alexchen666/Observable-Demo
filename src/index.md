@@ -38,6 +38,45 @@ const completeCols = ["ID", ...colsSelected]; // make sure "ID" is always select
 display(Inputs.table(df, {columns: completeCols}))
 ```
 
+Also we can check the descriptive analysis.
+
+```sql
+SELECT 'Mean' AS 'Statistics',
+      AVG("Culmen Length (mm)") AS "Culmen Length (mm)", 
+      AVG("Culmen Depth (mm)") AS "Culmen Depth (mm)", 
+      AVG("Flipper Length (mm)") AS "Flipper Length (mm)", 
+      AVG("Body Mass (g)") AS "Body Mass (g)"
+FROM penguins
+UNION
+SELECT 'Std' AS 'Statistics',
+      STDDEV("Culmen Length (mm)") AS "Culmen Length (mm)", 
+      STDDEV("Culmen Depth (mm)") AS "Culmen Depth (mm)", 
+      STDDEV("Flipper Length (mm)") AS "Flipper Length (mm)", 
+      STDDEV("Body Mass (g)") AS "Body Mass (g)"
+FROM penguins
+UNION
+SELECT 'Min' AS 'Statistics',
+      MIN("Culmen Length (mm)") AS "Culmen Length (mm)", 
+      MIN("Culmen Depth (mm)") AS "Culmen Depth (mm)", 
+      MIN("Flipper Length (mm)") AS "Flipper Length (mm)", 
+      MIN("Body Mass (g)") AS "Body Mass (g)"
+FROM penguins
+UNION
+SELECT 'Median' AS 'Statistics',
+      PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY "Culmen Length (mm)") AS "Culmen Length (mm)", 
+      PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY "Culmen Depth (mm)") AS "Culmen Depth (mm)", 
+      PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY "Flipper Length (mm)") AS "Flipper Length (mm)", 
+      PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY "Body Mass (g)") AS "Body Mass (g)"
+FROM penguins
+UNION
+SELECT 'Max' AS 'Statistics',
+      MIN("Culmen Length (mm)") AS "Culmen Length (mm)", 
+      MIN("Culmen Depth (mm)") AS "Culmen Depth (mm)", 
+      MIN("Flipper Length (mm)") AS "Flipper Length (mm)", 
+      MIN("Body Mass (g)") AS "Body Mass (g)"
+FROM penguins
+```
+
 ---
 
 ## Map View
