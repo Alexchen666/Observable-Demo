@@ -64,7 +64,7 @@ const neighbours = [
 ```js
 function penguinMap({width}){
   return Plot.plot({
-    width: 600,
+    width,
     height: 500,
     projection: ({width, height}) => d3.geoAzimuthalEquidistant()
       .rotate([70, 60])
@@ -82,11 +82,10 @@ function penguinMap({width}){
   })
 }
 ```
-<div style="margin: auto;">
-  ${
-    resize((width) => penguinMap({width}))
-  }
-</div>
+
+${
+  resize((width) => penguinMap({width}))
+}
 
 And where are the penguins from?
 
@@ -153,6 +152,7 @@ ${
   resize((width) => penguinMekko({width}))
 }
 </div>
+
 ---
 
 ## Exploratory Data Analysis
@@ -261,6 +261,8 @@ Now, let's look at some key numbers.
   </div>
 </div>
 
+Is a penguin over 4,500 g common? Let's take a look at it.
+
 ```js
 const over4500 = [
   {species: "Adelie Penguin", total: 146, yes: df.filter(d => d['Body Mass (g)'] >= 4500 && d.Species === "Adelie Penguin").length},
@@ -293,6 +295,8 @@ function penguinRatio({width}){
     resize((width) => penguinRatio({width}))
   }
 </div>
+
+It seems like it depends on the species. Gentoo penguins are bigger than the others.
 
 ---
 
