@@ -15,6 +15,11 @@ const world = await FileAttachment("data/countries-110m.json").json();
 const land = topojson.feature(world, world.objects.land);
 ```
 
+```js
+import {DuckDBClient} from "npm:@observablehq/duckdb";
+const db = DuckDBClient.of({p: FileAttachment("data/penguins.csv")});
+```
+
 ## Table View
 
 First, let's look at the first ten rows in our penguins dataset.
@@ -79,10 +84,14 @@ FROM penguins
 
 We should check the descriptive analysis for the categorical variables as well.
 
-```sql
-SELECT Species, Island, Sex, COUNT(*) AS count
-FROM 'penguins'
-GROUP BY Species, Island, Sex;
+```js
+const cat = db.query(`SELECT Species, Island, Sex, COUNT(*) AS count
+FROM p
+GROUP BY Species, Island, Sex;`)
+```
+
+```js
+display(Inputs.table(cat))
 ```
 
 ---
