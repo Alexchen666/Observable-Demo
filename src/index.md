@@ -86,7 +86,7 @@ display(Inputs.table(num))
 We should check the descriptive analysis for the categorical variables as well.
 
 ```js
-const cat = db.query(`SELECT Species, Island, Sex, COUNT(*) AS count
+const cat = db.query(`SELECT Species, Island, Sex, COUNT(*) AS Count
 FROM penguins
 GROUP BY Species, Island, Sex;`)
 display(Inputs.table(cat))
