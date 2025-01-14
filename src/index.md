@@ -85,13 +85,18 @@ FROM penguins
 We should check the descriptive analysis for the categorical variables as well.
 
 ```js
-const cat = db.query(`SELECT "Species", "Island", "Sex", COUNT(*) AS count
+const cat = db.query(`SELECT Species, Island, Sex, COUNT(*) AS count
 FROM p
-GROUP BY "Species", "Island", "Sex";`)
+GROUP BY Species, Island, Sex;`)
+display(Inputs.table(cat))
 ```
 
 ```js
-display(Inputs.table(cat))
+const test = db.query(`SELECT * FROM p`)
+```
+
+```js
+display(Inputs.table(test))
 ```
 
 ---
