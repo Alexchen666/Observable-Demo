@@ -16,6 +16,8 @@ export default {
     }
   ],
 
+  sidebar: false,
+
   theme: "midnight",
 
   // Content to add to the head of the page, e.g. for a favicon:
