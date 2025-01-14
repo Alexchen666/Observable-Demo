@@ -13,14 +13,14 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # Set up caching to automatically re-use existing data from previous builds
-      # - id: date
-      #   run: echo "date=$(TZ=America/Los_Angeles date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-      # - id: cache-data
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: src/.observablehq/cache
-      #     key: data-${{ hashFiles('src/data/*') }}-${{ steps.date.outputs.date }}
+      Set up caching to automatically re-use existing data from previous builds
+      - id: date
+        run: echo "date=$(TZ=America/Los_Angeles date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+      - id: cache-data
+        uses: actions/cache@v4
+        with:
+          path: src/.observablehq/cache
+          key: data-${{ hashFiles('src/data/*') }}-${{ steps.date.outputs.date }}
       - run: npm run build
       - name: Deploy to Observable Cloud
         # This parameter to `--message` will use the latest commit message
