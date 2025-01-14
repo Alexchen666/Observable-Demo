@@ -1,7 +1,5 @@
 ---
 toc: false
-sql:
-  penguins: data/penguins.csv
 ---
 
 <div class="hero">
@@ -45,8 +43,9 @@ display(Inputs.table(df, {columns: completeCols}))
 
 And we can check the descriptive analysis.
 
-```sql
-SELECT 'Mean' AS 'Statistics',
+```js
+const num = db.query(
+`SELECT 'Mean' AS 'Statistics',
       AVG("Culmen Length (mm)") AS "Culmen Length (mm)", 
       AVG("Culmen Depth (mm)") AS "Culmen Depth (mm)", 
       AVG("Flipper Length (mm)") AS "Flipper Length (mm)", 
@@ -79,7 +78,9 @@ SELECT 'Max' AS 'Statistics',
       MIN("Culmen Depth (mm)") AS "Culmen Depth (mm)", 
       MIN("Flipper Length (mm)") AS "Flipper Length (mm)", 
       MIN("Body Mass (g)") AS "Body Mass (g)"
-FROM penguins
+FROM penguins`
+)
+display(Inputs.table(num))
 ```
 
 We should check the descriptive analysis for the categorical variables as well.
