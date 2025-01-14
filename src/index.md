@@ -81,7 +81,7 @@ We should check the descriptive analysis for the categorical variables as well.
 
 ```sql
 SELECT Species, Island, Sex, COUNT(*) AS count
-FROM penguins
+FROM 'penguins'
 GROUP BY Species, Island, Sex;
 ```
 
