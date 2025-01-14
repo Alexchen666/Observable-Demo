@@ -14,8 +14,6 @@ import {sql} from "npm:@observablehq/duckdb";
 const df = FileAttachment("data/penguins.csv").csv({typed: true});
 ```
 
-# All about Penguins
-
 ## Table View
 
 First, let's look at the first ten rows in our penguins dataset.
